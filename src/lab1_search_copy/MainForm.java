@@ -1,4 +1,4 @@
-package lab1_search;
+package lab1_search_copy;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
