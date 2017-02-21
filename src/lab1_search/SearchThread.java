@@ -8,24 +8,24 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SearchThread extends Thread{
-    SearchInfo searchInfo;
+public class SearchThread extends Thread {
+    SearchParameters searchParameters;
 
     private SearchThread() {}
 
-    public SearchThread(SearchInfo searchInfo) {
-        this.searchInfo = searchInfo;
+    public SearchThread(SearchParameters searchParameters) {
+        this.searchParameters = searchParameters;
     }
 
-    public SearchThread(String name, SearchInfo searchInfo) {
+    public SearchThread(String name, SearchParameters searchParameters) {
         super(name);
-        this.searchInfo = searchInfo;
+        this.searchParameters = searchParameters;
     }
 
     @Override
     public void run() {
         try {
-            list(searchInfo.path, searchInfo.template);
+            list(searchParameters.getPath(), searchParameters.getTemplate());
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
@@ -36,7 +36,7 @@ public class SearchThread extends Thread{
         String[] dirList = f.list();
         List<String> files = new ArrayList<>();
 
-        if (searchInfo.isSubdirectory) {
+        if (searchParameters.isSubdirectory()) {
             try {
                 for (String fileName : dirList) {
                     if (fileName.charAt(0) == '.') {
@@ -59,7 +59,7 @@ public class SearchThread extends Thread{
             }
         }
 
-        if (searchInfo.isSubstring) {
+        if (searchParameters.isSubstring()) {
             String[] names = files.stream().toArray(String[]::new);
             files.clear();
             for (String fileName : names) {
@@ -72,7 +72,7 @@ public class SearchThread extends Thread{
                 while(in.hasNext())
                     tempString += in.nextLine() + "\r\n";
                 in.close();
-                if (tempString.contains(searchInfo.substring)) {
+                if (tempString.contains(searchParameters.getSubstring())) {
                     files.add(tempFile.getAbsolutePath());
                 }
             }

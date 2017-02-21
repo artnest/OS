@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="ThreadSettings">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="lab1_search.ThreadSettings">
   <grid id="cbd77" binding="contentPane" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
     <margin top="10" left="10" bottom="10" right="10"/>
     <constraints>
@@ -65,7 +65,7 @@
               <text value="Директория поиска"/>
             </properties>
           </component>
-          <component id="15e05" class="javax.swing.JTextField" binding="directoryText">
+          <component id="15e05" class="javax.swing.JTextField" binding="directoryTextField">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -81,7 +81,7 @@
               <text value="Шаблон для названия файла"/>
             </properties>
           </component>
-          <component id="7a2f6" class="javax.swing.JTextField" binding="templateText">
+          <component id="7a2f6" class="javax.swing.JTextField" binding="templateTextField">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -99,7 +99,7 @@
               <text value="Строка для поиска в файле"/>
             </properties>
           </component>
-          <component id="8f276" class="javax.swing.JTextField" binding="searchLineText">
+          <component id="8f276" class="javax.swing.JTextField" binding="substringTextField">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="6" anchor="8" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -125,7 +125,7 @@
               <text value="по шаблону"/>
             </properties>
           </component>
-          <component id="baaeb" class="javax.swing.JCheckBox" binding="searchLineCheckBox">
+          <component id="baaeb" class="javax.swing.JCheckBox" binding="substringCheckBox">
             <constraints>
               <grid row="5" column="2" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -133,7 +133,7 @@
               <text value="файлы с вхождением строки"/>
             </properties>
           </component>
-          <component id="77301" class="javax.swing.JButton" binding="chooserOpen">
+          <component id="77301" class="javax.swing.JButton" binding="chooseDirectoryButton">
             <constraints>
               <grid row="1" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
