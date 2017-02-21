@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class ThreadForm extends JFrame {
+class ThreadForm extends JFrame {
     private JPanel mainPanel;
     private JButton settingsButton1;
     private JButton settingsButton2;
@@ -17,9 +17,6 @@ public class ThreadForm extends JFrame {
     private JTextPane textPane1;
     private JTextPane textPane2;
 
-//    SearchAttributes searchAttributes1;
-//    SearchAttributes searchAttributes2;
-
     private SearchThread thread1 = new SearchThread();
     private SearchThread thread2 = new SearchThread();
 
@@ -28,10 +25,9 @@ public class ThreadForm extends JFrame {
 //    boolean suspendThread1 = false;
 //    boolean suspendThread2 = false;
 
-    public ThreadForm() {
+    ThreadForm() {
         setTitle("Search Application");
         setContentPane(mainPanel);
-        setSize(845, 350);
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new WindowAdapter() {
@@ -41,26 +37,12 @@ public class ThreadForm extends JFrame {
             }
         });
 
-        settingsButton1.addActionListener(e -> {
-            new ThreadSettings(thread1);
-//            isCheckThread1 = true;
-//            callDialog();
-        });
-        settingsButton2.addActionListener(e -> {
-            new ThreadSettings(thread2);
-//            isCheckThread2 = true;
-//            callDialog();
-        });
+        settingsButton1.addActionListener(e -> new ThreadSettings(thread1));
+        settingsButton2.addActionListener(e -> new ThreadSettings(thread2));
 
 
-        startButton1.addActionListener(e -> {
-//            thread1 = new SearchThread("First thread", searchAttributes1); // TODO add check
-            thread1.start();
-        });
-        startButton2.addActionListener(e -> {
-//            thread2 = new SearchThread("Second thread", searchAttributes2); // TODO add check
-            thread2.start();
-        });
+        startButton1.addActionListener(e -> thread1.start()); // TODO add check
+        startButton2.addActionListener(e -> thread2.start()); // TODO add check
 
         pauseButton1.addActionListener(e -> { // TODO rewrite!!
             if (thread1.isAlive()) {
@@ -100,14 +82,5 @@ public class ThreadForm extends JFrame {
         setVisible(true);
     }
 
-    /*private void callDialog() {
-        new ThreadSettings(this); // TODO rearrange
-    }*/
-
-    /*public void inputData(String s) { // TODO ?
-        if (isCheckThread1)
-            textPane1.setText(textPane1.getText() + s);
-        if (isCheckThread2)
-            textPane2.setText(textPane2.getText() + s);
-    }*/
+    // TODO print found files onto TextPanes
 }
