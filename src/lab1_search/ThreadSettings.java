@@ -4,7 +4,6 @@ import javax.swing.*;
 import java.awt.event.*;
 
 public class ThreadSettings extends JDialog {
-    private ThreadForm parentForm;
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
@@ -16,13 +15,15 @@ public class ThreadSettings extends JDialog {
     private JCheckBox substringCheckBox;
     private JButton chooseDirectoryButton;
 
-    public ThreadSettings(ThreadForm parentForm) {
+//    private ThreadForm parentForm;
+    private SearchThread thread;
+
+    /*public ThreadSettings(ThreadForm parentForm) {
         this.parentForm = parentForm;
 
         setContentPane(contentPane);
         setBounds(350, 150, 510, 250);
         setResizable(false);
-        //setSize(510, 250);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
 
@@ -50,11 +51,69 @@ public class ThreadSettings extends JDialog {
                 directoryTextField.setText(fileChooser.getSelectedFile().getAbsolutePath());
             }
         });
+
+        pack();
+        setVisible(true);
+    }*/
+
+    public ThreadSettings(SearchThread thread) {
+        this.thread = thread;
+
+        setContentPane(contentPane);
+        setBounds(350, 150, 510, 250);
+        setResizable(false);
+        setModal(true);
+        getRootPane().setDefaultButton(buttonOK);
+
+        buttonOK.addActionListener(e -> onOK());
+        buttonCancel.addActionListener(e -> onCancel());
+
+        // call onCancel() when cross is clicked
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        addWindowListener(new WindowAdapter() {
+            public void windowClosing(WindowEvent e) {
+                onCancel();
+            }
+        });
+
+        // call onCancel() on ESCAPE
+        contentPane.registerKeyboardAction(e -> onCancel(),
+                KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0),
+                JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+        chooseDirectoryButton.addActionListener(e -> {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            if (fileChooser.showDialog(null,
+                    "Choose directory...") == JFileChooser.APPROVE_OPTION) {
+                directoryTextField.setText(fileChooser.getSelectedFile().getAbsolutePath());
+            }
+        });
+
+        templateCheckBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                templateTextField.setEnabled(true);
+            } else {
+                templateTextField.setEnabled(false);
+            }
+        });
+
+        substringCheckBox.addItemListener(e -> {
+            if (e.getStateChange() == ItemEvent.SELECTED) {
+                substringTextField.setEnabled(true);
+            } else {
+                substringTextField.setEnabled(false);
+            }
+        });
+
+        pack();
+        setVisible(true);
     }
 
     private void onOK() {
+        // TODO review!
         if (directoryTextField.getText().isEmpty()) {
-            ErrorDialog errorDialog = new ErrorDialog("Не выбрана директрория для поиска!");
+            ErrorDialog errorDialog = new ErrorDialog("Не выбрана директория для поиска!");
             errorDialog.setVisible(true);
             return;
         }
@@ -76,22 +135,32 @@ public class ThreadSettings extends JDialog {
             }
         }
 
+/*
         if (parentForm.isCheckThread1) {
-            parentForm.searchParameters1 = new SearchParameters(directoryTextField.getText(), templateTextField.getText(), substringTextField.getText(),
+            parentForm.searchAttributes1 = new SearchAttributes(directoryTextField.getText(), templateTextField.getText(), substringTextField.getText(),
                     subdirectoryCheckBox.isSelected(), templateCheckBox.isSelected(), substringCheckBox.isSelected());
             parentForm.isCheckThread1 = false;
         }
+*/
 
+/*
         if (parentForm.isCheckThread2) {
-            parentForm.searchParameters2 = new SearchParameters(directoryTextField.getText(), templateTextField.getText(), substringTextField.getText(),
+            parentForm.searchAttributes2 = new SearchAttributes(directoryTextField.getText(), templateTextField.getText(), substringTextField.getText(),
                     subdirectoryCheckBox.isSelected(), templateCheckBox.isSelected(), substringCheckBox.isSelected());
             parentForm.isCheckThread2 = false;
         }
+*/
+        thread.setSearchAttributes(new SearchAttributes(directoryTextField.getText(),
+                                                        templateTextField.getText(),
+                                                        substringTextField.getText(),
+                                                        subdirectoryCheckBox.isSelected(),
+                                                        templateCheckBox.isSelected(),
+                                                        substringCheckBox.isSelected()));
+
         dispose();
     }
 
     private void onCancel() {
-        // add your code here if necessary
         dispose();
     }
 }

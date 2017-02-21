@@ -1,42 +1,46 @@
 package lab1_search;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class SearchThread extends Thread {
-    SearchParameters searchParameters;
+    private SearchAttributes searchAttributes;
 
-    private SearchThread() {}
-
-    public SearchThread(SearchParameters searchParameters) {
-        this.searchParameters = searchParameters;
+    public SearchThread() {
     }
 
-    public SearchThread(String name, SearchParameters searchParameters) {
+    /*public SearchThread(SearchAttributes searchAttributes) {
+        this.searchAttributes = searchAttributes;
+    }*/
+
+    /*public SearchThread(String name, SearchAttributes searchAttributes) {
         super(name);
-        this.searchParameters = searchParameters;
+        this.searchAttributes = searchAttributes;
+    }*/
+
+    public SearchAttributes getSearchAttributes() {
+        return searchAttributes; // TODO remove?
+    }
+
+    public void setSearchAttributes(SearchAttributes searchAttributes) {
+        this.searchAttributes = searchAttributes;
     }
 
     @Override
     public void run() {
+/*
         try {
-            list(searchParameters.getPath(), searchParameters.getTemplate());
+            list(searchAttributes.getPath(), searchAttributes.getTemplate());
         } catch (FileNotFoundException e) {
             System.err.println(e.getMessage());
         }
+*/
+
     }
 
-    private void list(String path, String template) throws FileNotFoundException {
+    /*private void list(String path, String template) throws FileNotFoundException {
         File f = new File(path);
         String[] dirList = f.list();
         List<String> files = new ArrayList<>();
 
-        if (searchParameters.isSubdirectory()) {
+        if (searchAttributes.isSubdirectory()) {
             try {
                 for (String fileName : dirList) {
                     if (fileName.charAt(0) == '.') {
@@ -59,7 +63,7 @@ public class SearchThread extends Thread {
             }
         }
 
-        if (searchParameters.isSubstring()) {
+        if (searchAttributes.isSubstring()) {
             String[] names = files.stream().toArray(String[]::new);
             files.clear();
             for (String fileName : names) {
@@ -72,7 +76,7 @@ public class SearchThread extends Thread {
                 while(in.hasNext())
                     tempString += in.nextLine() + "\r\n";
                 in.close();
-                if (tempString.contains(searchParameters.getSubstring())) {
+                if (tempString.contains(searchAttributes.getSubstring())) {
                     files.add(tempFile.getAbsolutePath());
                 }
             }
@@ -83,10 +87,9 @@ public class SearchThread extends Thread {
         }
         // TODO Вывод в текстовое поле найденных файлов
         // TODO pass the necessary JTextArea, assign to field
+    }*/
 
-    }
-
-    private static String getRegex(String template) {
+    /*private static String getRegex(String template) {
         StringBuilder regex = new StringBuilder("^");
         for (char c : template.toCharArray()) {
             switch (c)
@@ -105,5 +108,5 @@ public class SearchThread extends Thread {
             }
         }
         return regex.toString();
-    }
+    }*/
 }

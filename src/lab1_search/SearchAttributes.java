@@ -1,6 +1,6 @@
 package lab1_search;
 
-class SearchParameters {
+class SearchAttributes {
     private String path;
     private String template;
     private String substring;
@@ -9,7 +9,7 @@ class SearchParameters {
     private boolean isTemplate = false;
     private boolean isSubstring = false;
 
-    SearchParameters(String path, String template, String substring,
+    SearchAttributes(String path, String template, String substring,
                      boolean isSubdirectory, boolean isTemplate, boolean isSubstring) {
         this.path = path;
         this.template = template;
