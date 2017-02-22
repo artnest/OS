@@ -88,7 +88,7 @@
           <text value="Thread 2"/>
         </properties>
       </component>
-      <grid id="3cb24" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="3cb24" binding="textPanel1" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="8" left="8" bottom="8" right="8"/>
         <constraints>
           <grid row="2" column="0" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -96,17 +96,22 @@
         <properties/>
         <border type="none"/>
         <children>
-          <scrollpane id="8d0b8">
+          <scrollpane id="8d0b8" binding="scrollPane1">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <autoscrolls value="true"/>
+              <horizontalScrollBarPolicy value="32"/>
+              <verticalScrollBarPolicy value="20"/>
+            </properties>
             <border type="none"/>
             <children>
-              <component id="72253" class="javax.swing.JTextPane" binding="textPane1" default-binding="true">
+              <component id="6ee67" class="javax.swing.JTextArea" binding="textArea1" default-binding="true">
                 <constraints/>
                 <properties>
                   <editable value="false"/>
+                  <lineWrap value="false"/>
                   <minimumSize width="0" height="25"/>
                   <preferredSize width="0" height="100"/>
                 </properties>
@@ -115,7 +120,7 @@
           </scrollpane>
         </children>
       </grid>
-      <grid id="a36d9" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+      <grid id="a36d9" binding="textPanel2" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
         <margin top="8" left="8" bottom="8" right="8"/>
         <constraints>
           <grid row="2" column="4" row-span="1" col-span="4" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
@@ -123,14 +128,17 @@
         <properties/>
         <border type="none"/>
         <children>
-          <scrollpane id="2e0c4">
+          <scrollpane id="2e0c4" binding="scrollPane2">
             <constraints>
               <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="7" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
             </constraints>
-            <properties/>
+            <properties>
+              <autoscrolls value="true"/>
+              <verticalScrollBarPolicy value="20"/>
+            </properties>
             <border type="none"/>
             <children>
-              <component id="8ec17" class="javax.swing.JTextPane" binding="textPane2" default-binding="true">
+              <component id="5269d" class="javax.swing.JTextArea" binding="textArea2" default-binding="true">
                 <constraints/>
                 <properties>
                   <editable value="false"/>

@@ -14,11 +14,15 @@ class ThreadForm extends JFrame {
     private JButton pauseButton2;
     private JButton stopButton1;
     private JButton stopButton2;
-    private JTextPane textPane1;
-    private JTextPane textPane2;
+    private JTextArea textArea1;
+    private JTextArea textArea2;
+    private JScrollPane scrollPane1; // TODO make it work
+    private JScrollPane scrollPane2;
+    private JPanel textPanel1;
+    private JPanel textPanel2;
 
-    private SearchThread thread1 = new SearchThread();
-    private SearchThread thread2 = new SearchThread();
+    private SearchThread thread1 = new SearchThread(textArea1);
+    private SearchThread thread2 = new SearchThread(textArea2);
 
 //    boolean isCheckThread1 = false;
 //    boolean isCheckThread2 = false;
@@ -66,13 +70,13 @@ class ThreadForm extends JFrame {
         stopButton1.addActionListener(e -> {
             if (thread1.isAlive()) {
                 thread1.interrupt();
-                textPane1.setText(textPane1.getText() + "Первый поток завершен."); // TODO rewrite
+                textArea1.setText(textArea1.getText() + "Первый поток завершен."); // TODO rewrite
             }
         });
         stopButton2.addActionListener(e -> {
             if (thread2.isAlive()) {
                 thread2.interrupt();
-                textPane2.setText(textPane2.getText() + "Второй поток завершен"); // TODO rewrite
+                textArea2.setText(textArea2.getText() + "Второй поток завершен"); // TODO rewrite
             }
         });
 

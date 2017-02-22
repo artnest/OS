@@ -2,44 +2,44 @@ package lab1_search;
 
 class SearchAttributes {
     private String path;
-    private String template;
+    private String pattern;
     private String substring;
 
     private boolean isSubdirectory = false;
-    private boolean isTemplate = false;
+    private boolean isPattern = false;
     private boolean isSubstring = false;
 
-    SearchAttributes(String path, String template, String substring,
-                     boolean isSubdirectory, boolean isTemplate, boolean isSubstring) {
+    SearchAttributes(String path, String pattern, String substring,
+                     boolean isSubdirectory, boolean isPattern, boolean isSubstring) {
         this.path = path;
-        this.template = template;
+        this.pattern = pattern;
         this.substring = substring;
         this.isSubdirectory = isSubdirectory;
-        this.isTemplate = isTemplate;
+        this.isPattern = isPattern;
         this.isSubstring = isSubstring;
     }
 
-    public String getPath() {
+    String getPath() {
         return path;
     }
 
-    public String getTemplate() {
-        return template;
+    String getPattern() {
+        return pattern;
     }
 
-    public String getSubstring() {
+    String getSubstring() {
         return substring;
     }
 
-    public boolean isSubdirectory() {
+    boolean isSubdirectory() {
         return isSubdirectory;
     }
 
-    public boolean isTemplate() {
-        return isTemplate;
+    boolean isPattern() {
+        return isPattern;
     }
 
-    public boolean isSubstring() {
+    boolean isSubstring() {
         return isSubstring;
     }
 }

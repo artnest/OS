@@ -1,7 +1,10 @@
 package lab1_search;
 
 import javax.swing.*;
-import java.awt.event.*;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 class ThreadSettings extends JDialog {
     private JPanel contentPane;
@@ -11,7 +14,7 @@ class ThreadSettings extends JDialog {
     private JTextField templateTextField;
     private JTextField substringTextField;
     private JCheckBox subdirectoryCheckBox;
-    private JCheckBox templateCheckBox;
+    private JCheckBox patternCheckBox;
     private JCheckBox substringCheckBox;
     private JButton chooseDirectoryButton;
 
@@ -49,7 +52,7 @@ class ThreadSettings extends JDialog {
             }
         });
 
-        templateCheckBox.addItemListener(e -> {
+        patternCheckBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
                 templateTextField.setEnabled(true);
             } else {
@@ -71,35 +74,39 @@ class ThreadSettings extends JDialog {
     }
 
     private void onOK() {
-        // TODO review!
-        if (directoryTextField.getText().isEmpty()) { // TODO remove, search in / if directory is not chosen
+        if (directoryTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this,
-                    "Не выбрана директория для поиска!", "Error", JOptionPane.ERROR_MESSAGE);
+                    "You didn't choose a directory!", "Error", JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (substringCheckBox.isSelected()) {
-            if (templateCheckBox.isSelected()) {
-                int size = templateTextField.getText().length();
-                if (!templateTextField.getText().substring(size - 4).equals(".txt")
-                        && !templateTextField.getText().substring(size - 4).equals(".doc")
-                        && !templateTextField.getText().substring(size - 5).equals(".docx")) {
-                    JOptionPane.showMessageDialog(this,
-                            "Поиск по строке осуществляется только в файлах следующих форматов: .txt, .doc, .docx",
-                            JOptionPane.ICON_PROPERTY, JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-            } else {
-                templateTextField.setText("*.txt");
+        if (substringCheckBox.isSelected() && patternCheckBox.isSelected()) {
+            if (!templateTextField.getText().endsWith(".txt") ||
+                    !templateTextField.getText().endsWith(".doc") ||
+                    !templateTextField.getText().endsWith(".docx") ||
+                    !templateTextField.getText().endsWith(".rtf") ||
+                    !templateTextField.getText().endsWith(".log") ||
+                    !templateTextField.getText().endsWith(".java")) {
+                JOptionPane.showMessageDialog(this,
+                        "Allowed file formats: .txt, .doc, .docx, .rtf, .log, .java",
+                        JOptionPane.ICON_PROPERTY, JOptionPane.ERROR_MESSAGE);
+                return;
             }
+        } else if (substringCheckBox.isSelected()) {
+            JOptionPane.showMessageDialog(this,
+                    "Only .txt files will be viewed for containing the substring",
+                    JOptionPane.ICON_PROPERTY, JOptionPane.WARNING_MESSAGE);
+            templateTextField.setText("*.txt"); // TODO remove?
         }
 
-        thread.setSearchAttributes(new SearchAttributes(directoryTextField.getText(),
-                                                        templateTextField.getText(),
-                                                        substringTextField.getText(),
-                                                        subdirectoryCheckBox.isSelected(),
-                                                        templateCheckBox.isSelected(),
-                                                        substringCheckBox.isSelected()));
+        thread.setSearchAttributes(
+                new SearchAttributes(
+                        directoryTextField.getText(),
+                        templateTextField.getText(),
+                        substringTextField.getText(),
+                        subdirectoryCheckBox.isSelected(),
+                        patternCheckBox.isSelected(),
+                        substringCheckBox.isSelected()));
 
         dispose();
     }
