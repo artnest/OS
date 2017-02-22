@@ -70,21 +70,20 @@ class ThreadForm extends JFrame {
         stopButton1.addActionListener(e -> {
             if (thread1.isAlive()) {
                 thread1.interrupt();
-                textArea1.setText(textArea1.getText() + "Первый поток завершен."); // TODO rewrite
+                textArea1.append("Thread 1 stopped"); // TODO rewrite
             }
         });
         stopButton2.addActionListener(e -> {
             if (thread2.isAlive()) {
                 thread2.interrupt();
-                textArea2.setText(textArea2.getText() + "Второй поток завершен"); // TODO rewrite
+                textArea2.append("Thread 2 stopped"); // TODO rewrite
             }
         });
 
         pack();
-        // TODO UIManager setLookAndFeel
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    // TODO print found files onto TextPanes
+    // TODO add found files into List field of each thread?
 }

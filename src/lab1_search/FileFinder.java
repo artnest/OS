@@ -7,22 +7,39 @@ import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 
 import static java.nio.file.FileVisitResult.CONTINUE;
+import static java.nio.file.FileVisitResult.SKIP_SUBTREE;
 
 class FileFinder extends SimpleFileVisitor<Path> {
     private PathMatcher matcher;
     private JTextArea textArea;
-    private String searchString;
+    private String searchString = "";
+    private boolean searchInSubdirectories = true;
+    private Path initialPath;
 
     FileFinder(String pattern, JTextArea textArea) {
         this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
         this.textArea = textArea;
-        this.searchString = "";
     }
 
     FileFinder(String pattern, String searchString, JTextArea textArea) {
         this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
         this.textArea = textArea;
         this.searchString = searchString;
+    }
+
+    FileFinder(String pattern, boolean searchInSubdirectories, Path initialPath, JTextArea textArea) {
+        this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
+        this.searchInSubdirectories = searchInSubdirectories;
+        this.initialPath = initialPath;
+        this.textArea = textArea;
+    }
+
+    FileFinder(String pattern, String searchString, boolean searchInSubdirectories, Path initialPath, JTextArea textArea) {
+        this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
+        this.searchString = searchString;
+        this.searchInSubdirectories = searchInSubdirectories;
+        this.initialPath = initialPath;
+        this.textArea = textArea;
     }
 
     @Override
@@ -58,13 +75,20 @@ class FileFinder extends SimpleFileVisitor<Path> {
     @Override
     public FileVisitResult preVisitDirectory(Path path,
                                              BasicFileAttributes fileAttributes) {
-        find(path);
+//        find(path); // invoke pattern matching on each directory
+        if (!searchInSubdirectories) {
+            if (path.equals(initialPath)) {
+                return CONTINUE;
+            } else {
+                return SKIP_SUBTREE;
+            }
+        }
         return CONTINUE;
     }
 
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-        System.err.println(exc.getCause());
+        textArea.append(exc.getCause() + "\n");
         return CONTINUE;
     }
 }

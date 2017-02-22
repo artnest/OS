@@ -102,7 +102,7 @@
             </constraints>
             <properties>
               <autoscrolls value="true"/>
-              <horizontalScrollBarPolicy value="32"/>
+              <horizontalScrollBarPolicy value="30"/>
               <verticalScrollBarPolicy value="20"/>
             </properties>
             <border type="none"/>
