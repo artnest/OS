@@ -98,7 +98,6 @@ class ThreadSettings extends JDialog {
                     "Only .txt files will be viewed for containing the substring",
                     "Warning",
                     JOptionPane.WARNING_MESSAGE);
-            templateTextField.setText("*.txt"); // TODO remove?
         }
 
         // TODO check if pattern is valid: FileSystems.getDefault().getPathMatcher("glob:" + pattern) ?

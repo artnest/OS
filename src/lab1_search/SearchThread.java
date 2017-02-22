@@ -17,7 +17,7 @@ class SearchThread extends Thread {
     }
 
     SearchAttributes getSearchAttributes() {
-        return searchAttributes; // TODO remove?
+        return searchAttributes;
     }
 
     void setSearchAttributes(SearchAttributes searchAttributes) {
@@ -93,7 +93,7 @@ class SearchThread extends Thread {
             }
         }
 
-        // TODO 4 more variants of settings combination
+        // TODO add 4 more variants of settings combinations
     }
 
     private void listFiles(String path) throws IOException {
