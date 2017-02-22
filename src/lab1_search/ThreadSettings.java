@@ -89,15 +89,19 @@ class ThreadSettings extends JDialog {
                     !templateTextField.getText().endsWith(".java")) {
                 JOptionPane.showMessageDialog(this,
                         "Allowed file formats: .txt, .doc, .docx, .rtf, .log, .java",
-                        JOptionPane.ICON_PROPERTY, JOptionPane.ERROR_MESSAGE);
+                        "File format error",
+                        JOptionPane.ERROR_MESSAGE);
                 return;
             }
         } else if (substringCheckBox.isSelected()) {
             JOptionPane.showMessageDialog(this,
                     "Only .txt files will be viewed for containing the substring",
-                    JOptionPane.ICON_PROPERTY, JOptionPane.WARNING_MESSAGE);
+                    "Warning",
+                    JOptionPane.WARNING_MESSAGE);
             templateTextField.setText("*.txt"); // TODO remove?
         }
+
+        // TODO check if pattern is valid: FileSystems.getDefault().getPathMatcher("glob:" + pattern) ?
 
         thread.setSearchAttributes(
                 new SearchAttributes(

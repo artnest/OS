@@ -26,8 +26,6 @@ class SearchThread extends Thread {
 
     @Override
     public void run() {
-        // TODO search
-
         if (!searchAttributes.isSubdirectory() &&
                 !searchAttributes.isPattern() &&
                 !searchAttributes.isSubstring()) {
@@ -66,18 +64,11 @@ class SearchThread extends Thread {
                 searchAttributes.isSubstring()) {
             try {
                 String searchString = searchAttributes.getSubstring();
-                Files.newDirectoryStream(Paths.get("."),
-                        path -> path.toString().endsWith(".txt"))
+                Files.newDirectoryStream(Paths.get(searchAttributes.getPath()),
+                        path -> path.toFile().isFile() && path.toString().endsWith(".txt"))
                         .forEach(path -> {
-                            /*try {
-                                try (BufferedReader reader = new BufferedReader(new FileReader(searchAttributes.getPath()))) {
-                                    // TODO checking file
-                                }
-                            } catch (IOException e) {
-                                textArea.append(path + "\n");
-                            }*/
                             try {
-                                Files.lines(Paths.get(searchAttributes.getPath()),
+                                Files.lines(path,
                                             Charset.defaultCharset())
                                         .forEach(line -> {
                                             if (line.contains(searchString)) {
@@ -101,6 +92,8 @@ class SearchThread extends Thread {
                 textArea.append(e.getCause() + "\n");
             }
         }
+
+        // TODO 4 more variants of settings combination
     }
 
     private void listFiles(String path) throws IOException {

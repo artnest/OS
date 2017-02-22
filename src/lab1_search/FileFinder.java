@@ -39,7 +39,7 @@ class FileFinder extends SimpleFileVisitor<Path> {
     private void find(Path path) {
         Path name = path.getFileName();
         if (name != null && matcher.matches(name))
-            textArea.append(path.toString());
+            textArea.append(path.toString() + "\n");
     }
 
     private void find(Path path, String searchString) throws IOException {
