@@ -48,16 +48,20 @@ class SearchThread extends Thread {
         return filePaths;
     }
 
-    void setInterrupted(boolean interrupted) {
-        this.interrupted = interrupted;
+    void interruptThread() {
+        this.interrupted = true;
     }
 
-    boolean getPaused() {
+    boolean isPaused() {
         return paused;
     }
 
-    void setPaused(boolean paused) {
-        this.paused = paused;
+    void pause() {
+        this.paused = true;
+    }
+
+    void unpause() {
+        this.paused = false;
     }
 
     @Override
@@ -302,6 +306,12 @@ class SearchThread extends Thread {
         if (textArea.getColumns() < filePath.toString().length()) {
             textArea.setColumns(filePath.toString().length());
         }
+    }
+
+    void invalidateTextArea() {
+        textArea.setText(null);
+        textArea.setRows(0);
+        textArea.setColumns(0);
     }
 
     private void printInternalException(IOException e) {

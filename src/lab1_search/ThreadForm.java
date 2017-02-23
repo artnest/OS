@@ -52,42 +52,40 @@ class ThreadForm extends JFrame {
 
 
         startButton1.addActionListener(e -> {
-            if (!thread1.getPaused()) {
-                invalidateTextArea();
+            if (!thread1.isPaused()) {
                 thread1.start();
             } else {
-                thread1.setPaused(false);
+                thread1.unpause();
             }
         });
         startButton2.addActionListener(e -> {
-            if (!thread2.getPaused()) {
-                invalidateTextArea();
+            if (!thread2.isPaused()) {
                 thread2.start();
             } else {
-                thread2.setPaused(false);
+                thread2.unpause();
             }
         });
 
         pauseButton1.addActionListener(e -> {
             if (thread1.isAlive()) {
-                thread1.setPaused(true);
+                thread1.pause();
             }
         });
         pauseButton2.addActionListener(e -> {
             if (thread2.isAlive()) {
-                thread2.setPaused(true);
+                thread2.pause();
             }
         });
 
         stopButton1.addActionListener(e -> {
-            thread1.setInterrupted(true);
+            thread1.interruptThread();
 
             startButton1.setEnabled(false);
             pauseButton1.setEnabled(false);
             stopButton1.setEnabled(false);
         });
         stopButton2.addActionListener(e -> {
-            thread2.setInterrupted(true);
+            thread2.interruptThread();
 
             startButton2.setEnabled(false);
             pauseButton2.setEnabled(false);
@@ -97,11 +95,5 @@ class ThreadForm extends JFrame {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
-    }
-
-    private void invalidateTextArea() {
-        textArea1.setText(null);
-        textArea1.setRows(0);
-        textArea1.setColumns(0);
     }
 }

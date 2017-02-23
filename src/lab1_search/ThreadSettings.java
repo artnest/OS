@@ -120,7 +120,7 @@ class ThreadSettings extends JDialog {
                         subdirectoryCheckBox.isSelected(),
                         patternCheckBox.isSelected(),
                         substringCheckBox.isSelected()));
-
+        thread.invalidateTextArea();
         thread.setButtons();
         dispose();
     }
