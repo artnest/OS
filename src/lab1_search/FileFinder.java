@@ -5,41 +5,66 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.List;
 
+import static java.lang.Thread.sleep;
 import static java.nio.file.FileVisitResult.CONTINUE;
 import static java.nio.file.FileVisitResult.SKIP_SUBTREE;
 
 class FileFinder extends SimpleFileVisitor<Path> {
     private PathMatcher matcher;
     private JTextArea textArea;
+    private List<String> filePaths;
     private String searchString = "";
     private boolean searchInSubdirectories = true;
     private Path initialPath;
+    private boolean interrupted;
+    private boolean paused;
 
-    FileFinder(String pattern, JTextArea textArea) {
+    FileFinder(String pattern,
+               JTextArea textArea, List<String> filePaths,
+               boolean interrupted, boolean paused) {
         this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
         this.textArea = textArea;
+        this.filePaths = filePaths;
+        this.interrupted = interrupted;
+        this.paused = paused;
     }
 
-    FileFinder(String pattern, String searchString, JTextArea textArea) {
+    FileFinder(String pattern, String searchString,
+               JTextArea textArea, List<String> filePaths,
+               boolean interrupted, boolean paused) {
         this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
         this.textArea = textArea;
+        this.filePaths = filePaths;
         this.searchString = searchString;
+        this.interrupted = interrupted;
+        this.paused = paused;
     }
 
-    FileFinder(String pattern, boolean searchInSubdirectories, Path initialPath, JTextArea textArea) {
+    FileFinder(String pattern, boolean searchInSubdirectories, Path initialPath,
+               JTextArea textArea, List<String> filePaths,
+               boolean interrupted, boolean paused) {
         this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
         this.searchInSubdirectories = searchInSubdirectories;
         this.initialPath = initialPath;
         this.textArea = textArea;
+        this.filePaths = filePaths;
+        this.interrupted = interrupted;
+        this.paused = paused;
     }
 
-    FileFinder(String pattern, String searchString, boolean searchInSubdirectories, Path initialPath, JTextArea textArea) {
+    FileFinder(String pattern, String searchString, boolean searchInSubdirectories, Path initialPath,
+               JTextArea textArea, List<String> filePaths,
+               boolean interrupted, boolean paused) {
         this.matcher = FileSystems.getDefault().getPathMatcher("glob:" + pattern);
         this.searchString = searchString;
         this.searchInSubdirectories = searchInSubdirectories;
         this.initialPath = initialPath;
         this.textArea = textArea;
+        this.filePaths = filePaths;
+        this.interrupted = interrupted;
+        this.paused = paused;
     }
 
     @Override
@@ -55,8 +80,28 @@ class FileFinder extends SimpleFileVisitor<Path> {
 
     private void find(Path path) {
         Path name = path.getFileName();
-        if (name != null && matcher.matches(name))
+        if (name != null && matcher.matches(name)) {
+            if (paused) {
+                textAreaUpdate(path);
+                textArea.append(">>> Search paused\n");
+
+                while (paused) {
+                    try {
+                        sleep(1000);
+                    } catch (InterruptedException e) {
+                        System.err.println(e.getMessage());
+                    }
+                }
+            }
+
+            if (interrupted) {
+                return;
+            }
+
+            textAreaUpdate(path);
             textArea.append(path.toString() + "\n");
+            filePaths.add(path.toString());
+        }
     }
 
     private void find(Path path, String searchString) throws IOException {
@@ -66,7 +111,26 @@ class FileFinder extends SimpleFileVisitor<Path> {
                     Charset.defaultCharset())
                     .forEach(line -> {
                         if (line.contains(searchString)) {
+                            if (paused) {
+                                textAreaUpdate(path);
+                                textArea.append(">>> Search paused\n");
+
+                                while (paused) {
+                                    try {
+                                        sleep(1000);
+                                    } catch (InterruptedException e) {
+                                        System.err.println(e.getMessage());
+                                    }
+                                }
+                            }
+
+                            if (interrupted) {
+                                return;
+                            }
+
+                            textAreaUpdate(path);
                             textArea.append(path + "\n");
+                            filePaths.add(path.toString());
                         }
                     });
         }
@@ -88,7 +152,15 @@ class FileFinder extends SimpleFileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFileFailed(Path file, IOException exc) throws IOException {
-        textArea.append(exc.getCause() + "\n");
+        textAreaUpdate(file);
+        textArea.append(">>> Access denied: " + exc.getMessage() + "\n");
         return CONTINUE;
+    }
+
+    private void textAreaUpdate(Path filePath) {
+        textArea.setRows(textArea.getRows() + 1);
+        if (textArea.getColumns() < filePath.toString().length()) {
+            textArea.setColumns(filePath.toString().length());
+        }
     }
 }

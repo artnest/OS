@@ -11,7 +11,7 @@ class ThreadSettings extends JDialog {
     private JButton buttonOK;
     private JButton buttonCancel;
     private JTextField directoryTextField;
-    private JTextField templateTextField;
+    private JTextField patternTextField;
     private JTextField substringTextField;
     private JCheckBox subdirectoryCheckBox;
     private JCheckBox patternCheckBox;
@@ -54,9 +54,9 @@ class ThreadSettings extends JDialog {
 
         patternCheckBox.addItemListener(e -> {
             if (e.getStateChange() == ItemEvent.SELECTED) {
-                templateTextField.setEnabled(true);
+                patternTextField.setEnabled(true);
             } else {
-                templateTextField.setEnabled(false);
+                patternTextField.setEnabled(false);
             }
         });
 
@@ -80,13 +80,25 @@ class ThreadSettings extends JDialog {
             return;
         }
 
+        if (patternCheckBox.isSelected() && patternTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "You didn't specify a pattern!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (substringCheckBox.isSelected() && substringTextField.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "You didn't specify a substring!", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
         if (substringCheckBox.isSelected() && patternCheckBox.isSelected()) {
-            if (!templateTextField.getText().endsWith(".txt") ||
-                    !templateTextField.getText().endsWith(".doc") ||
-                    !templateTextField.getText().endsWith(".docx") ||
-                    !templateTextField.getText().endsWith(".rtf") ||
-                    !templateTextField.getText().endsWith(".log") ||
-                    !templateTextField.getText().endsWith(".java")) {
+            if (!patternTextField.getText().endsWith(".txt") ||
+                    !patternTextField.getText().endsWith(".doc") ||
+                    !patternTextField.getText().endsWith(".docx") ||
+                    !patternTextField.getText().endsWith(".rtf") ||
+                    !patternTextField.getText().endsWith(".log") ||
+                    !patternTextField.getText().endsWith(".java")) {
                 JOptionPane.showMessageDialog(this,
                         "Allowed file formats: .txt, .doc, .docx, .rtf, .log, .java",
                         "File format error",
@@ -100,17 +112,16 @@ class ThreadSettings extends JDialog {
                     JOptionPane.WARNING_MESSAGE);
         }
 
-        // TODO check if pattern is valid: FileSystems.getDefault().getPathMatcher("glob:" + pattern) ?
-
         thread.setSearchAttributes(
                 new SearchAttributes(
                         directoryTextField.getText(),
-                        templateTextField.getText(),
+                        patternTextField.getText(),
                         substringTextField.getText(),
                         subdirectoryCheckBox.isSelected(),
                         patternCheckBox.isSelected(),
                         substringCheckBox.isSelected()));
 
+        thread.setButtons();
         dispose();
     }
 
