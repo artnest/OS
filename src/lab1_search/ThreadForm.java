@@ -96,4 +96,5 @@ class ThreadForm extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
     }
+
 }

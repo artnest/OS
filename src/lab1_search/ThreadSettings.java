@@ -128,4 +128,5 @@ class ThreadSettings extends JDialog {
     private void onCancel() {
         dispose();
     }
+
 }
