@@ -5,19 +5,41 @@ package lab2_threads;
  */
 public class FibonacciThreads {
 
-    private InputThread inputThread;
-    private ExecutionThread executionThread;
-    private OutputThread outputThread;
+    private static InputThread inputThread;
+    private static ExecutionThread executionThread;
+    private static OutputThread outputThread;
 
-    public FibonacciThreads() {
+    public static void initInputThread() {
+        inputThread = new InputThread();
+        inputThread.start();
     }
 
-    public void initInputThread() {
+    public static void initExecutionThread() {
+        executionThread = new ExecutionThread();
+        executionThread.start();
     }
 
-    public void initCheckThread() {
+    public static void initOutputThread() {
+        outputThread = new OutputThread();
+        outputThread.start();
     }
 
-    public void initOutputThread() {
+    public static void initWorkingThreads() {
+        inputThread = new InputThread();
+        inputThread.start();
+        executionThread = new ExecutionThread();
+        executionThread.start();
+    }
+
+    public static InputThread getInputThread() {
+        return inputThread;
+    }
+
+    public static ExecutionThread getExecutionThread() {
+        return executionThread;
+    }
+
+    public static OutputThread getOutputThread() {
+        return outputThread;
     }
 }
